@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Custom Styles -->
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #0d6efd, #ffffff);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #sidebarFrame {
+            width: 250px;
+            height: 100vh;
+           
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 600px; /* Reducido el ancho máximo */
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #17283b;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 2rem; /* Tamaño de fuente ajustado */
+        }
+
+        h5 {
+            color: #17283b;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1rem; /* Tamaño de fuente ajustado */
+        }
+
+        iframe {
+            border-radius: 10px;
+            width: 100%;
+            height: 300px; /* Altura reducida */
+            border: 0;
+        }
+
+        .contact-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .contact-info h5 {
+            margin-bottom: 10px;
+            font-size: 1rem; /* Tamaño de fuente ajustado */
+        }
+
+        .contact-info a {
+            color: #0d6efd;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icon {
+            color: #0d6efd;
+            margin-left: 5px;
+            font-size: 1.1rem; /* Tamaño de fuente ajustado */
+        }
+
+        /* Animación de entrada */
+        .card {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <iframe id="sidebarFrame" src="{{ url_for('menulateral') }}"></iframe>
+
+    <main class="main-content">
+        <div class="card">
+            <h1><b>Sobre Nosotros</b></h1>
+
+            <h5><b>Ubicación en Google Maps</b></h5>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d422327.3266951337!2d-67.0825039659052!3d10.444706452912483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a570b05f20a73%3A0x6176dff286a6afc9!2sUniversidad%20Santa%20Mar%C3%ADa!5e0!3m2!1ses!2sve!4v1742868360222!5m2!1ses!2sve"
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            <div class="contact-info" style="text-align: center;">
+                <h5><b>Ubicación:</b> La Florencia, Miranda, Petare</h5>
+                <h5><b>Correo:</b> administracion@usm.edu.ve</h5>
+                <h5>
+                    <b>Instagram:</b>
+                    <a href="https://www.instagram.com/usm_vzla/?hl=es" target="_blank">
+                        @usm_vzla
+                        <i class="fab fa-instagram social-icon"></i>
+                    </a>
+                </h5>
+                <h5><b>Contacto:</b> +58 424-1254864</h5>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .fondo-delineado {
+      background: linear-gradient(to bottom, #0d6efd, white);
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 100vh;
+      z-index: -1;
+    }
+
+    .full-page {
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+    }
+    .mensajeRegistro {
+    color: green;
+    display: block; /* Asegúrate de que esté visible */
+}
+  </style>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Referencia a Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap/css/registro.css') }}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <title>Registro</title>
+  </head>
+
+  <body class="fondo-delineado">
+    <div
+      class="container full-page d-flex justify-content-center align-items-center"
+    >
+      <div
+        class="container d-flex justify-content-center align-items-center"
+        style="min-height: 100vh"
+      >
+        <div
+          class="col-12 col-md-8 col-lg-6"
+          style="
+            background-color: #f8f9fa;
+            color: #17283b;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+          "
+        >
+          <h5 style="text-align: center"><b>REGISTRO PACIENTE</b></h5>
+          <form id="formulario" class="w-100">
+            <div class="mb-3">
+              <label for="nombre" class="form-label"><b>Nombre</b></label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+                placeholder="Escriba su Nombre..."
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="apellido" class="form-label"><b>Apellido</b></label>
+              <input
+                type="text"
+                class="form-control"
+                id="apellido"
+                name="apellido"
+                placeholder="Escriba su Apellido..."
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="correo" class="form-label"><b>Correo</b></label>
+              <input
+                type="email"
+                class="form-control"
+                id="correo"
+                name="correo"
+                placeholder="Escriba su Correo..."
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="direccion" class="form-label"><b>Direccion</b></label>
+              <input
+                type="text"
+                class="form-control"
+                id="direccion"
+                name="direccion"
+                placeholder="Escriba su Direccion..."
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="nacimiento" class="form-label"
+                ><b>Fecha Nacimiento</b></label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="nacimiento"
+                name="nacimiento"
+                required
+              />
+              <div id="nacimientoError" class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+              <label for="sexo" class="form-label"><b>Sexo</b></label>
+              <select class="form-select" id="sexo" name="sexo" required>
+                <option value="">--</option>
+                <option value="m">Masculino</option>
+                <option value="f">Femenino</option>
+                <option value="nd">Prefiero No Decirlo</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="identificacion" class="form-label"
+                ><b>Identificacion</b></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="identificacion"
+                name="identificacion"
+                placeholder="Escriba su Identificacion.."
+                required
+              />
+            </div>
+            <div
+              style="color: red"
+              id="mensajeError1"
+              class="mensajeError1"
+            ></div>
+            <div class="mb-3" style="display: flex">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="cedula"
+                />
+                <label class="form-check-label" for="cedula">V</label>
+              </div>
+              <div class="form-check" style="margin-left: 10px">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="rif"
+                />
+                <label class="form-check-label" for="rif">J</label>
+              </div>
+              <div class="form-check" style="margin-left: 10px">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="extranjero"
+                />
+                <label class="form-check-label" for="extranjero">E</label>
+              </div>
+              <div class="form-check" style="margin-left: 10px">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="pasaporte"
+                />
+                <label class="form-check-label" for="pasaporte">P</label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="usuario" class="form-label"><b>Usuario</b></label>
+              <input
+                type="text"
+                class="form-control"
+                id="usuario"
+                name="usuario"
+                placeholder="Escriba su Usuario..."
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="clave" class="form-label"><b>Clave</b></label>
+              <input
+                type="password"
+                class="form-control"
+                id="clave"
+                name="clave"
+                placeholder="Escriba su clave.."
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="confirmar_clave" class="form-label"
+                ><b>Confirmar Clave</b></label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="confirmar_clave"
+                name="confirmar_clave"
+                placeholder="Escriba su clave.."
+                required
+              />
+            </div>
+            <div style="text-align: center">
+              <button type="button" class="btn btn-primary" id="btnRegistrar">
+                Registrate
+              </button>
+              <div
+                style="color: red"
+                id="mensajeError"
+                class="mensajeError"
+              ></div>
+              <div style="color: green;" id="mensajeRegistro" class="mensajeRegistro"></div>
+            </div>
+            <br />
+            <div style="text-align: center">
+              <p>
+                ¿Ya estas Registrado?<a href="{{ url_for('login') }}">
+                  <b>Iniciar Sesión</b></a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("btnRegistrar")
+        .addEventListener("click", async function (event) {
+          event.preventDefault();
+
+          const nombre = document.getElementById("nombre").value;
+          const apellido = document.getElementById("apellido").value;
+          const correo = document.getElementById("correo").value;
+          const direccion = document.getElementById("direccion").value;
+          const nacimiento = document.getElementById("nacimiento").value;
+          const sexo = document.getElementById("sexo").value;
+          const identificacion =
+            document.getElementById("identificacion").value;
+          const usuario = document.getElementById("usuario").value;
+          const clave = document.getElementById("clave").value;
+          const confirmar_clave =
+            document.getElementById("confirmar_clave").value;
+          const telefono =
+            document.getElementById("telefono")?.value || "No especificado";
+          const descendencia =
+            document.getElementById("descendencia")?.value || "No"; // Campo de descendencia
+          const nombre_hijo =
+            document.getElementById("nombre_hijo")?.value || "N/A"; // Campo de nombre del hijo
+          const fecha_nacimiento_hijo =
+            document.getElementById("fecha_nacimiento_hijo")?.value || "N/A"; // Fecha de nacimiento del hijo
+          const sexo_hijo =
+            document.getElementById("sexo_hijo")?.value || "N/A"; // Sexo del hijo
+          const patologia =
+            document.getElementById("patologia")?.value || "Ninguna"; // Campo de patología
+          
+
+          if (clave !== confirmar_clave) {
+            document.getElementById("mensajeError").textContent =
+              "Las contraseñas no coinciden.";
+            return;
+          }
+
+          let letraSeleccionada = null;
+          const radioButtons = document.getElementsByName("flexRadioDefault");
+          for (const radioButton of radioButtons) {
+            if (radioButton.checked) {
+              letraSeleccionada = radioButton.id;
+              break;
+            }
+          }
+
+          if (!letraSeleccionada) {
+            alert("Por favor, selecciona una opción (V, J, E, P).");
+            return;
+          }
+
+          const pacienteData = {
+            name: nombre,
+            apellido,
+            correo,
+            direccion,
+            identificacion_tipo: letraSeleccionada,
+            identificacion_numero: identificacion,
+            telefono,
+            descendencia,
+            nombre_hijo,
+            fecha_nacimiento_hijo,
+            sexo_hijo,
+            fecha_nacimiento: nacimiento,
+            patologia,
+            sexo,
+            usuario,
+            clave,
+            confirmar_clave,
+          };
+
+          try {
+            const response = await fetch("{{ url_for('paciente') }}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(pacienteData),
+            });
+            let mensajeRegistro = document.getElementById('mensajeRegistro');
+            if (response.ok) {
+              const data = await response.json();
+              if (data.message) {
+        
+                mostrarMensaje(data.message);
+                window.location.replace("/");
+              } else {
+                alert(data.message || "Error al registrar el paciente.");
+              }
+            } else {
+              alert("Error al registrar el paciente.");
+            }
+          } catch (error) {
+            console.error("Error al conectar con el servidor:", error);
+            alert("Error al conectar con el servidor.");
+          }
+        });
+
+        function mostrarMensaje(mensaje) {
+    const mensajeRegistro = document.getElementById('mensajeRegistro');
+    mensajeRegistro.textContent = mensaje;
+    mensajeRegistro.style.color = 'green'; // Opcional: Cambia el color del texto
+}
+    </script>
+  </body>
+</html>

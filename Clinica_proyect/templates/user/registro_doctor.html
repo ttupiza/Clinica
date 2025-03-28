@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .fondo-delineado {
+        background: linear-gradient(to bottom, #0d6efd, white);
+        position: relative;
+        /* O absolute si el padre tiene position: relative */
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100vh;
+        /* Asegura que cubra al menos la altura de la ventana */
+        z-index: -1;
+        /* Asegura que el fondo esté detrás del contenido */
+    }
+
+    .full-page {
+        min-height: 100vh;
+        padding: 20px;
+        position: relative;
+        /* Necesario para que el z-index del fondo funcione correctamente */
+    }
+</style>
+
+<head>
+
+    <meta charset="UTF-8">
+    <link src="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Referencia a Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" />
+    <!-- Referencia a tu archivo CSS personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/registro.css') }}" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<title>Registro</title>
+</head>
+
+<body class="fondo-delineado">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <div class="container full-page d-flex justify-content-center align-items-center">
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+            <div class="col-12 col-md-8 col-lg-6"
+                style="background-color: #f8f9fa; color: #17283b; border-radius: 5px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); max-width: 600px; width: 100%;">
+                <h5 style="text-align: center;"><b>REGISTRO DOCTOR</b></h5>
+                <form method="POST" id="formulario" class="w-100">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label"><b>Nombre</b></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                            placeholder="Escriba su Nombre..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nacimiento" class="form-label"><b>Fecha Nacimiento</b></label>
+                        <input type="date" class="form-control" id="nacimiento" name="nacimiento" required>
+                        <div id="nacimientoError" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sexo" class="form-label"><b>Sexo</b></label>
+                        <select class="form-select" id="sexo" name="sexo" required>
+                            <option value="">--</option>
+                            <option value="m">Masculino</option>
+                            <option value="f">Femenino</option>
+                            <option value="nd">Prefiero No Decirlo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label"><b>Cedula</b></label>
+                        <input type="text" class="form-control" id="cedula" name="cedula"
+                            placeholder="Escriba su cedula.." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="especialidad" class="form-label"><b>Especialidad</b></label>
+                        <select class="form-select" id="especialidad" name="especialidad" multiple required></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="clave" class="form-label"><b>Clave</b></label>
+                        <input type="password" class="form-control" id="clave" name="clave"
+                            placeholder="Escriba su clave.." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmar_clave" class="form-label"><b>Confirmar Clave</b></label>
+                        <input type="password" class="form-control" id="confirmar_clave" name="confirmar_clave"
+                            placeholder="Escriba su clave.." required>
+                    </div>
+                    <input value="Paciente" hidden> 
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary" id="btnRegistrar">Registrate</button>
+                        <div style="color: red;" id="mensajeError" class="mensajeError"></div>
+                        <div style="color: green;" id="mensajeRegistro" class="mensajeRegistro"></div>
+                        
+                    </div>
+
+                    <br>
+                    <div style="text-align: center;">
+                        <p>¿Ya estas Registrado?<a href="{{ url_for('index') }}"> <b>Iniciar Sesión</b></a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const especialidades = [
+            "Alergología",
+            "Anestesiología",
+            "Cardiología",
+            "Cirugía General",
+            "Dermatología",
+            "Endocrinología",
+            "Gastroenterología",
+            "Geriatría",
+            "Ginecología y Obstetricia",
+            "Hematología",
+            "Infectología",
+            "Medicina Familiar",
+            "Medicina Interna",
+            "Nefrología",
+            "Neumología",
+            "Neurología",
+            "Oftalmología",
+            "Oncología",
+            "Otorrinolaringología",
+            "Pediatría",
+            "Psiquiatría",
+            "Reumatología",
+            "Urología",
+            "Radiología",
+            "Medicina de Emergencia",
+            "Anatomía Patológica",
+            "Medicina Física y Rehabilitación",
+            "Medicina Preventiva y Salud Pública",
+            "Medicina del Trabajo",
+            "Genética Médica"
+        ];
+
+        const selectEspecialidad = $('#especialidad');
+
+        especialidades.forEach(especialidad => {
+            selectEspecialidad.append(new Option(especialidad, especialidad));
+        });
+
+        selectEspecialidad.select2({
+            placeholder: "Seleccione una especialidad",
+            allowClear: true,
+            multiple: true // Agrega la opción multiple: true
+        });
+    });
+    document.getElementById('formulario').addEventListener('submit', function (event) {
+        const fechaNacimiento = document.getElementById('nacimiento').value;
+        const fechaNacimientoDate = new Date(fechaNacimiento);
+        const fechaActual = new Date();
+        const fechaMinima = new Date(1900, 0, 1); // 1 de enero de 1900
+        const errorDiv = document.getElementById('nacimientoError');
+
+        errorDiv.textContent = ''; // Limpiar mensajes de error anteriores
+
+        if (fechaNacimientoDate > fechaActual) {
+            errorDiv.textContent = 'La fecha de nacimiento no puede ser futura.';
+            event.preventDefault(); // Evitar que se envíe el formulario
+        } else if (fechaNacimientoDate < fechaMinima) {
+            errorDiv.textContent = 'La fecha de nacimiento debe ser posterior a 1900.';
+            event.preventDefault(); // Evitar que se envíe el formulario
+        }
+    });
+
+    document.getElementById('btnRegistrar').addEventListener('click', function (event) {
+        let clave = document.getElementById('clave').value; // Obtener el valor del campo clave
+        let confirmar_clave = document.getElementById('confirmar_clave').value; // Obtener el valor del campo confirmar_clave
+        let mensajeDiv = document.getElementById('mensajeError');
+
+        if (clave !== confirmar_clave) { // Usar !== para comparar valores
+            mensajeDiv.textContent = 'Las contraseñas no coinciden.';
+        } else {
+            mensajeDiv.textContent = ''; // Limpiar el mensaje de error si las contraseñas coinciden
+            // Aquí puedes agregar el código para enviar el formulario o realizar otras acciones
+          //  console.log("Contraseñas coinciden");
+        }
+    });
+
+
+     // Enviar el formulario como JSON al endpoint /crear_cita
+     document.getElementById('btnRegistrar').addEventListener('click', async () => {
+            const nombre = document.getElementById('nombre').value;
+            const nacimiento = document.getElementById('nacimiento').value;
+            const sexo = document.getElementById('sexo').value;
+            const cedula = document.getElementById('cedula').value;
+            const especialidad = document.getElementById('especialidad').value;
+            const clave = document.getElementById('clave').value;
+            const confirmar_clave = document.getElementById('confirmar_clave').value;
+            let mensajeRegistro = document.getElementById('mensajeRegistro');
+
+            const data = {
+                nombre: nombre,
+                nacimiento: nacimiento,
+                sexo: sexo,
+                cedula: cedula,
+                especialidad: especialidad,
+                clave: clave,
+                confirmar_clave: confirmar_clave
+
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/registro_doctor', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message || 'Registro Doctor');
+                    mensajeRegistro.textContent = 'Registro Exitoso.';
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Error al registrar Doctor');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error al conectar con el servidor');
+            }
+        });
+</script>
+  <!-- Referencia a Bootstrap JS -->
+  <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+</html>

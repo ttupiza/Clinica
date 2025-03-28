@@ -1,0 +1,179 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />  
+    <style>  
+        body {  
+            margin: 0;  
+            padding: 0;  
+            height: 100vh;  
+        }  
+
+        .sidebar {  
+            height: 100vh;  
+            width: 250px;  
+            position: fixed;  
+            top: 0;  
+            left: 0;  
+            background-color: #0d6efd;  
+            transition: width 0.2s ease;  
+            padding-top: 70px;  
+            color: white;  
+            z-index: 1000;  
+        }  
+
+        .sidebar.closed {  
+            width: 60px;  
+            left: 0;  
+        }  
+
+        .sidebar.closed .sidebar-header {  
+            display: none;  
+        }  
+
+        .sidebar.closed .sidebar-content a span {  
+            display: none;  
+        }  
+
+        .sidebar.closed .sidebar-content a {  
+            padding: 15px 15px;  
+            text-align: center;  
+        }  
+
+        .sidebar a {  
+            padding: 15px 25px;  
+            text-decoration: none;  
+            font-size: 16px;  
+           color: white;  
+            display: block;  
+            transition: background-color 0.2s;  
+        }  
+
+        .sidebar a:hover {  
+            background-color: #0d6efd;  
+        }  
+
+        .sidebar a i {  
+            margin-right: 10px;  
+        }  
+
+        .toggle-btn {  
+            position: absolute;  
+            bottom: 10px;  
+            right: 10px;  
+            background-color: #0d6efd;  
+            border: none;  
+            font-size: 20px;  
+            cursor: pointer;  
+            padding: 10px 15px;  
+            border-radius: 5px;  
+            transition: background-color 0.2s;  
+        }  
+
+        .toggle-btn:hover {  
+            background-color: #0d6efd;  
+        }  
+
+        #content {  
+            margin-left: 250px;  
+            transition: margin-left 0.3s ease;  
+            height: 100vh;  
+            overflow-y: auto;  
+        }  
+
+        #content.closed {  
+            margin-left: 60px;  
+        }  
+
+        .sidebar-header {  
+            padding: 20px 25px;  
+            text-align: center;  
+            font-size: 20px;  
+            font-weight: bold;  
+            border-bottom: 1px solid #0d6efd;  
+        }  
+
+        .sidebar-content {  
+            padding: 10px 0;  
+        }  
+
+        .centered-bars {  
+            text-align: center;  
+            margin: 0 auto;  
+            width: 20px;  
+            cursor: pointer;  
+        }  
+
+        .centered-bars img {  
+            transition: transform 0.3s ease;  
+        }  
+
+        .centered-bars.rotated img {  
+            transform: rotate(180deg);  
+        }  
+
+        .white-icon {  
+            filter: invert(100%);  
+        }  
+
+        .sidebar a:hover {  
+            color: rgb(8, 13, 13);  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div id="sidebar" class="sidebar" style="font-size: 20px;">  
+        <div class="centered-bars" id="toggleBtn">  
+            <img src="{{ url_for('static', filename='img/list-solid.svg') }}" width="20px" alt="Bars Icon" class="white-icon">  
+        </div>  
+        <div class="sidebar-header">  
+            Menú  
+        </div>  
+        <div class="sidebar-content" id="sidebarContent">  
+            <!-- Menu options will be populated here -->  
+        </div>  
+    </div>  
+    <div id="content">  
+        <!-- Main content goes here -->  
+    </div>  
+
+    <script>  
+        const sidebar = document.getElementById('sidebar');  
+        const toggleBtn = document.getElementById('toggleBtn');  
+        const content = document.getElementById('content');  
+        const sidebarContent = document.getElementById('sidebarContent');  
+
+        const pacienteJSON = localStorage.getItem('role');
+       // const paciente = pacienteJSON ? JSON.parse(pacienteJSON) : null;
+        //console.log(pacienteJSON); 
+        //console.log(paciente); 
+        //alert("paciente:"+pacienteJSON); 
+        let sidebarOptions = '';  
+
+        if (pacienteJSON=='paciente') {  
+            sidebarOptions += `  
+                <a href="{{ url_for('crear_citas') }}" target="_top"><i class="fas fa-calendar-check" style="font-size: 20px;"></i> <span style="font-size: 20px;">Crear Citas</span></a>  
+                <a href="{{ url_for('contacto') }}" target="_top" style="font-size: 20px;"><i class="fas fa-envelope"></i> <span style="font-size: 20px;">Contacto</span></a>  
+                <a href="{{ url_for('disponibilidad_horarios') }}" target="_top" style="font-size: 20px;"><i class="fas fa-calendar"></i> <span style="font-size: 20px;">Horario</span></a>  
+                <a href="#" target="_top"><i class="fas fa-sign-out-alt" style="font-size: 20px;"></i> <span style="font-size: 20px;">Salir</span></a>  
+            `;  
+        }else if(pacienteJSON=='doctor'){  
+            sidebarOptions += `  
+                <a href="{{ url_for('ver_cita') }}" target="_top"><i class="fas fa-calendar-alt" style="font-size: 20px;"></i> <span style="font-size: 20px;">Ver Citas</span></a>  
+                <a href="{{ url_for('horario') }}" target="_top"><i class="fas fa-clock" style="font-size: 20px;"></i> <span style="font-size: 20px;">Horarios</span></a>  
+                <a href="#" target="_top"><i class="fas fa-sign-out-alt" style="font-size: 20px;"></i> <span style="font-size: 20px;">Salir</span></a>  
+            `;  
+        } 
+
+        sidebarContent.innerHTML = sidebarOptions;  
+
+        toggleBtn.addEventListener('click', () => {  
+            sidebar.classList.toggle('closed');  
+            content.classList.toggle('closed');  
+            toggleBtn.querySelector('img').classList.toggle('rotated');  
+        });  
+    </script>  
+</body>  
+</html>  

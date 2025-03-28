@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
+    <title>Crear Citas</title>
+    <style>
+        .fondo-delineado {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+        }
+
+        #sidebarFrame {
+            width: 250px;
+            height: 100vh;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .main-content {
+            background-image: url('{{ url_for('static', filename='img/fondo_clinica.jpg') }}');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .calendario {
+            width: 300px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendario-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .dias-mes {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .dias-mes div {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .header-calendario {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .dias-semana {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .dias-semana span {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="fondo-delineado">
+    <iframe id="sidebarFrame" src="{{ url_for('menulateral') }}"></iframe>
+    <!-- <iframe id="sidebarFrame" src="{{ url_for('menulateral') }}"></iframe> -->
+    <div class="main-content">
+        <div class="container">
+            <br><br><br>
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-lg-8"
+                    >
+                    <h5 style="text-align: center;"><b>horarios disponibles</b></h5>
+                    <form id="formulario">
+                        <div class="mb-3">
+                            <label for="doctor" class="form-label"><b>Doctor</b></label>
+                            <select class="form-select" id="doctor" name="doctor">
+                                </select>
+                        </div>
+                        <br>
+                    </form>
+                    <div class="calendario-container">
+                        <div class="calendario">
+                            <div class="header-calendario">
+                                <span class="boton-prev" id="prev">⟨</span>
+                                <span class="mes-año" id="label">Junio 2023</span>
+                                <span class="boton-next" id="next">⟩</span>
+                            </div>
+                            <div class="dias-semana">
+                                <span>L</span>
+                                <span>M</span>
+                                <span>Mi</span>
+                                <span>J</span>
+                                <span>V</span>
+                                <span>S</span>
+                                <span>D</span>
+                            </div>
+                            <div class="dias-mes" id="dias-mes"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn btn-primary" id="submitButton">ir crear cita</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
+    <script>
+        let fechaActual = new Date();
+        let mesActual = fechaActual.getMonth();
+        let anioActual = fechaActual.getFullYear();
+
+        const labelMes = document.getElementById('label');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const diasMes = document.getElementById('dias-mes');
+
+        // Función para generar los días del mes
+        function generarDias(mes, anio) {
+            let primerDia = new Date(anio, mes, 1);
+            let ultimoDia = new Date(anio, mes + 1, 0);
+            let dias = ultimoDia.getDate();
+            let primerDiaSemana = primerDia.getDay();
+
+            let contenido = '';
+            for (let i = 0; i < primerDiaSemana; i++) {
+                contenido += '<div></div>';
+            }
+
+            for (let i = 1; i <= dias; i++) {
+                contenido += `<div>${i}</div>`;
+            }
+
+            diasMes.innerHTML = contenido;
+
+            // Actualizar etiqueta del mes
+            let meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            labelMes.textContent = `${meses[mes]} ${anio}`;
+        }
+
+        // Eventos para navegar entre meses
+        prevButton.addEventListener('click', () => {
+            if (mesActual === 0) {
+                mesActual = 11;
+                anioActual--;
+            } else {
+                mesActual--;
+            }
+            generarDias(mesActual, anioActual);
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (mesActual === 11) {
+                mesActual = 0;
+                anioActual++;
+            } else {
+                mesActual++;
+            }
+            generarDias(mesActual, anioActual);
+        });
+
+        // Generar días del mes actual al inicio
+        generarDias(mesActual, anioActual);
+    </script>
+</body>
+
+</html>

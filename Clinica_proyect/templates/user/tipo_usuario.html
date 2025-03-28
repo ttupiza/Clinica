@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .fondo-delineado {
+      margin: 0;
+      /* Elimina márgenes predeterminados */
+      height: 100vh;
+
+      /* Degradado de izquierda a derecha */
+    }
+    .contenedor {
+      background: linear-gradient(to bottom, #0d6efd, white);
+      background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+      background-repeat: no-repeat; /* Evita que la imagen se repita */
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+
+  <head>
+    <meta charset="UTF-8" />
+    <link src="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Referencia a Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"
+    />
+    <!-- Referencia a tu archivo CSS personalizado -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap/css/registro.css') }}"
+    />
+    <title>Registro</title>
+  </head>
+
+  <body class="contenedor">
+    <div class="container full-page d-flex justify-content-center align-items-center flex-column">
+      <!-- Título arriba -->
+      <div style="text-align: center; margin-bottom: 30px; color: white; ">
+        <h1><b>Regístrate Como</b></h1>
+      </div>
+    
+      <!-- Contenedor de opciones -->
+      <div class="d-flex justify-content-center">
+        <!-- Doctor -->
+        <div
+          class="col-md-5 col-lg-6 mx-3"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)
+              ),
+              url('{{ url_for('static', filename='img/img_doctor.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 600px;
+          "
+        >
+          <a
+            href="{{ url_for('registro_doctor') }}"
+            style="text-decoration: none"
+          >
+            <h1 style="text-align: center; color: white; margin-bottom: 20px">
+              <b>Doctor</b>
+            </h1>
+            <div style="position: absolute; bottom: 10px; right: 10px">
+              <img
+              src="{{ url_for('static', filename='img/flecha.svg') }}"
+                alt="Descripción de la imagen"
+                width="30px"
+                style="background-color: white; border-radius: 50%; padding: 5px"
+              />
+            </div>
+          </a>
+        </div>
+    
+        <!-- Paciente -->
+        <div
+          class="col-md-5 col-lg-6 mx-3"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)
+              ),
+              url('{{ url_for('static', filename='img/img_paciente.jpeg') }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 600px;
+          "
+        >
+          <a
+            href="{{ url_for('registro_paciente') }}"
+            style="text-decoration: none"
+          >
+            <h1 style="text-align: center; color: white; margin-bottom: 20px">
+              <b>Paciente</b>
+            </h1>
+            <div style="position: absolute; bottom: 10px; right: 10px">
+              <img
+              src="{{ url_for('static', filename='img/flecha.svg') }}"
+                alt="Descripción de la imagen"
+                width="30px"
+                style="background-color: white; border-radius: 50%; padding: 5px"
+              />
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+  <!-- Referencia a Bootstrap JS -->
+  <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+</html>
